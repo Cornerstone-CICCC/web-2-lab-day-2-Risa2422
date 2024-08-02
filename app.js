@@ -18,21 +18,23 @@ $(function () {
 
         let ul = $(".posts").children("ul");
 
-        for (let i = 0; i < data1.posts.length; i++) {
-          const li = $("<li>");
-          console.log(ul);
+        const li = $("<li>");
+        if (data1.posts.length > 0) {
+          for (let i = 0; i < data1.posts.length; i++) {
+            // h4
+            const title = $("<h4>");
+            title.text(data1.posts[i].title);
+            console.log(data1.posts);
+            li.append(title);
 
-          // h4
-          const title = $("<h4>");
-          title.text(data1.posts[i].title);
-          console.log(data1.posts);
-          li.append(title);
-
-          // data
-          const content = $("<p>");
-          content.text(data1.posts[i].body);
-          li.append(content);
-          console.log(li);
+            // data
+            const content = $("<p>");
+            content.text(data1.posts[i].body);
+            li.append(content);
+            ul.append(li);
+          }
+        } else {
+          li.text("User has no posts");
           ul.append(li);
         }
       });
