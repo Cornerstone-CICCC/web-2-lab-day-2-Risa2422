@@ -1,5 +1,119 @@
-$(function() {
-  
+$(function () {
   // your code here
 
-})
+  getUserId(1).then((data) => {
+    console.log(data);
+    $(".info__image").children().attr({ src: data.image });
+    $(".info__content").html(`<h3>${data.firstName} ${data.lastName}</h3>
+      <p>Age:${data.age}</p><p>Email:${data.email}</p><p>Phone:${data.phone}</p>`);
+
+    // post
+    getPost(1).then((data1) => {
+      console.log(data1);
+
+      // h3
+      $(".posts").children("h3").text(`${data.firstName}'s Posts`);
+
+      let ul = $(".posts").children("ul");
+
+      for (let i = 0; i < data1.posts.length; i++) {
+        const li = $("<li>");
+        console.log(ul);
+
+        // h4
+        const title = $("<h4>");
+        title.text(data1.posts[i].title);
+        console.log(data1.posts);
+        li.append(title);
+
+        // data
+        const content = $("<p>");
+        content.text(data1.posts[i].body);
+        li.append(content);
+        console.log(li);
+        ul.append(li);
+      }
+    });
+
+    // get todo
+    getTodo(1).then((data2) => {
+      // h3
+      $(".todos").children("h3").text(`${data.firstName}'s To Dos`);
+
+      let ul1 = $(".todos").children("ul");
+
+      // 取得したデータをリストにする
+      for (let i = 0; i < data2.todos.length; i++) {
+        let li = $("<li>");
+
+        // h4
+        const title = $("<h4>");
+        title.text(data2.todos[i].todo);
+        li.append(title);
+        ul1.append(li);
+      }
+    });
+  });
+
+  // click a post title
+  $(".posts")
+    .children("h3")
+    .on("click", function () {
+      $(this).next().slideToggle();
+    });
+
+  // click a todo
+  $(".todos")
+    .children("h3")
+    .on("click", function () {
+      $(this).next().slideToggle();
+    });
+
+  // Get userID
+  function getUserId(userid) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `https://dummyjson.com/users/${userid}`,
+        type: "GET",
+        success: function (response) {
+          resolve(response);
+        },
+        error: function (error) {
+          reject(error);
+        },
+      });
+    });
+  }
+
+  // Get post
+  function getPost(userid) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `https://dummyjson.com/users/${userid}/posts`,
+        type: "GET",
+        success: function (response) {
+          resolve(response);
+        },
+        error: function (error) {
+          reject(error);
+        },
+      });
+    });
+  }
+
+  // Get todo
+  function getTodo(userid) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `https://dummyjson.com/users/${userid}/todos`,
+        type: "GET",
+        success: function (response) {
+          resolve(response);
+        },
+        error: function (error) {
+          reject(error);
+        },
+      });
+    });
+  }
+});
