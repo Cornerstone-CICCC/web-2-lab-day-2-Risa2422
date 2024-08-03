@@ -10,56 +10,63 @@ $(function () {
 
   function buildHTML(currentIndex) {
     getUserId(currentIndex).then((data) => {
-      $(".info__image").children().attr({ src: data.image });
-      $(".info__content").html(`<h3>${data.firstName} ${data.lastName}</h3>
-      <p>Age:${data.age}</p><p>Email:${data.email}</p><p>Phone:${data.phone}</p>`);
+      $(".info__image").children("img").attr("src", data.image);
+      $(".info__content").html(`
+        <h3>${data.firstName} ${data.lastName}</h3>
+        <p>Age:${data.age}</p>
+        <p>Email:${data.email}</p>
+        <p>Phone:${data.phone}</p>`);
 
-      // post
-      getPost(currentIndex).then((data1) => {
-        console.log(data1);
+      // get post data
+      getPost(currentIndex).then((postData) => {
+        postList.empty();
 
-        // h3
         $(".posts").children("h3").text(`${data.firstName}'s Posts`);
 
-        let ul = $(".posts").children("ul");
+        if (postData.posts.length > 0) {
+          for (let i = 0; i < postData.posts.length; i++) {
+            postId = postData.posts[i].id;
+            const getPostList = $("<li>");
 
-        const li = $("<li>");
-        if (data1.posts.length > 0) {
-          for (let i = 0; i < data1.posts.length; i++) {
-            // h4
+            // titile of post
             const title = $("<h4>");
-            title.text(data1.posts[i].title);
-            console.log(data1.posts);
-            li.append(title);
+            title.attr(`post-id`, postData.posts[i].id);
+            title.text(postData.posts[i].title);
+            getPostList.append(title);
 
-            // data
+            // data of post
             const content = $("<p>");
-            content.text(data1.posts[i].body);
-            li.append(content);
-            ul.append(li);
+            content.text(postData.posts[i].body);
+            getPostList.append(content);
+            postList.append(getPostList);
           }
         } else {
-          li.text("User has no posts");
-          ul.append(li);
+          const getPostList = $("<li>");
+          getPostList.text("User has no posts");
+          postList.append(getPostList);
         }
       });
 
-      // get todo
-      getTodo(currentIndex).then((data2) => {
-        // h3
+      // get todos data
+      getTodo(currentIndex).then((todoData) => {
+        todoList.empty();
+
         $(".todos").children("h3").text(`${data.firstName}'s To Dos`);
 
-        let ul1 = $(".todos").children("ul");
+        if (todoData.todos.length > 0) {
+          for (let i = 0; i < todoData.todos.length; i++) {
+            const getTodoList = $("<li>");
 
-        // 取得したデータをリストにする
-        for (let i = 0; i < data2.todos.length; i++) {
-          let li = $("<li>");
-
-          // h4
-          const title = $("<h4>");
-          title.text(data2.todos[i].todo);
-          li.append(title);
-          ul1.append(li);
+            // data of todos
+            const title = $("<p>");
+            title.text(todoData.todos[i].todo);
+            getTodoList.append(title);
+            todoList.append(getTodoList);
+          }
+        } else {
+          const getTodoList = $("<li>");
+          getTodoList.text("User has no todos");
+          todoList.append(getTodoList);
         }
       });
     });
@@ -72,7 +79,7 @@ $(function () {
       $(this).next().slideToggle();
     });
 
-  // click a todo
+  // click a todo title
   $(".todos")
     .children("h3")
     .on("click", function () {
@@ -136,7 +143,7 @@ $(function () {
     });
   }
 
-  // Get post
+  // Get posts data
   function getPost(userid) {
     return new Promise((resolve, reject) => {
       $.ajax({
@@ -152,7 +159,7 @@ $(function () {
     });
   }
 
-  // Get todo
+  // Get todos data
   function getTodo(userid) {
     return new Promise((resolve, reject) => {
       $.ajax({
