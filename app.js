@@ -92,6 +92,29 @@ $(function () {
     buildHTML(currentIndex);
   });
 
+  // clicke the post titile
+  $(".posts")
+    .find("ul")
+    .on("click", "h4", function () {
+      const postId = $(this).attr("post-id");
+      getPostByPostid(postId).then((data) => {
+        const overlay = $("<div>");
+        overlay.html(`
+          <div class='modal'>
+            <h3>${data.title}</h3>
+            <p>${data.body}</p>
+            <p>views:${data.views}</p>
+            <button>close</button>
+          </div>`);
+        overlay.addClass("overlay");
+        container.append(overlay);
+      });
+    });
+
+  container.on("click", ".overlay button", function () {
+    $(this).parent().parent().remove();
+  });
+
   // Get userID
   function getUserId(userid) {
     return new Promise((resolve, reject) => {
