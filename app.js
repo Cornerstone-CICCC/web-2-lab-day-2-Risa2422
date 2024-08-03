@@ -89,8 +89,10 @@ $(function () {
   $("button:nth-of-type(1)").on("click", function () {
     if (currentIndex === 1) {
       currentIndex = 30;
+    } else {
+      currentIndex--;
     }
-    currentIndex--;
+
     buildHTML(currentIndex);
   });
 
@@ -98,8 +100,10 @@ $(function () {
   $("button:nth-of-type(2)").on("click", async function () {
     if (currentIndex === 30) {
       currentIndex = 1;
+    } else {
+      currentIndex++;
     }
-    currentIndex++;
+
     buildHTML(currentIndex);
   });
 
