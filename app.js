@@ -139,4 +139,20 @@ $(function () {
       });
     });
   }
+
+  // Get a postid
+  function getPostByPostid(postid) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `https://dummyjson.com/posts/${postid}`,
+        type: "GET",
+        success: function (response) {
+          resolve(response);
+        },
+        error: function (error) {
+          reject(error);
+        },
+      });
+    });
+  }
 });
