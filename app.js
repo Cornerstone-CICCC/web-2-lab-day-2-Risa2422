@@ -25,7 +25,6 @@ $(function () {
 
         if (postData.posts.length > 0) {
           for (let i = 0; i < postData.posts.length; i++) {
-            postId = postData.posts[i].id;
             const getPostList = $("<li>");
 
             // titile of post
