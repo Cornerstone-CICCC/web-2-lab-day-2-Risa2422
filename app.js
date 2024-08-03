@@ -27,7 +27,7 @@ $(function () {
           for (let i = 0; i < postData.posts.length; i++) {
             const getPostList = $("<li>");
 
-            // titile of post
+            // title of post
             const title = $("<h4>");
             title.attr(`post-id`, postData.posts[i].id);
             title.text(postData.posts[i].title);
