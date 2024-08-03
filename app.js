@@ -1,6 +1,11 @@
 $(function () {
   // your code here
   let currentIndex = 1;
+  const postList = $(".posts").children("ul");
+  const todoList = $(".todos").children("ul");
+  const container = $(".container");
+
+  // get the data and show
   buildHTML(currentIndex);
 
   function buildHTML(currentIndex) {
